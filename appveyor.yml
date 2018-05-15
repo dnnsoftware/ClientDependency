@@ -13,5 +13,5 @@ before_build:
 - ps: Update-AppveyorBuild -Version '$($ProductVersion)-$(APPVEYOR_BUILD_NUMBER)'
 build_script:
 - ps: .\Build-Release.ps1 $ProductVersion ''
-after_buid:
+after_build:
 - ps: Push-AppveyorArtifact build\Releases\$env:APPVEYOR_BUILD_VERSION\ClientDependnecy.$env:APPVEYOR_BUILD_VERSION.nupkg
