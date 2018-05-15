@@ -12,8 +12,9 @@ environment:
   ProductVersion: 1.8.4
   
 before_build:
-- ps: Update-AppveyorBuild -Version "$env:ProductVersion.$env:APPVEYOR_BUILD_NUMBER"
+- ps: Update-AppveyorBuild -Version "$env:ProductVersion.$env:APPVEYOR_BUILD_NUMBER-$env:APPVEYOR_REPO_BRANCH"
+- ps: Set-AppveyorBuildVariable -Name 'BuildVersion' -Value "$env:ProductVersion.$env:APPVEYOR_BUILD_NUMBER"
 build_script:
-- ps: .\Build-Release.ps1 $env:ProductVersion ''
+- ps: .\Build-Release.ps1 $env:BuildVersion ''
 after_build:
-- ps: Push-AppveyorArtifact build\Releases\v$env:ProductVersion\ClientDependnecy.$env:ProductVersion.nupkg
+- ps: Push-AppveyorArtifact build\Releases\v$env:BuildVersion\ClientDependnecy.$env:BuildVersion.nupkg
