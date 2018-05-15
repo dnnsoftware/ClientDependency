@@ -11,5 +11,5 @@ nuget:
 build_script:
 - ps: .\Build-Release.ps1 $env:APPVEYOR_BUILD_VERSION ''
 artifacts:
-- path: build\Releases\**\*.nupkg
+- path: build\Releases\**\ClientDependnecy.$env:APPVEYOR_BUILD_VERSION.nupkg
   name: NuGet
