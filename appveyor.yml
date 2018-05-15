@@ -17,4 +17,4 @@ before_build:
 build_script:
 - ps: .\Build-Release.ps1 $env:BuildVersion ''
 after_build:
-- ps: Push-AppveyorArtifact build\Releases\v$env:BuildVersion\ClientDependnecy.$env:BuildVersion.nupkg
+- ps: Push-AppveyorArtifact build\Releases\v$env:BuildVersion\ClientDependency.$env:BuildVersion.nupkg
