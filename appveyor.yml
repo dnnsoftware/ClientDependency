@@ -9,7 +9,7 @@ nuget:
   disable_publish_on_pr: true
   
 environment:
-  ProductVersion: 1.8.4
+  ProductVersion: 1.9.2
   
 before_build:
 - ps: Update-AppveyorBuild -Version "$env:ProductVersion.$env:APPVEYOR_BUILD_NUMBER-$env:APPVEYOR_JOB_ID"
