@@ -294,6 +294,17 @@ namespace ClientDependency.Core.FileRegistration.Providers
                     var resolvedPath = path.ResolvePath(http);
                     var basePath = resolvedPath.EndsWith("/") ? resolvedPath : resolvedPath + "/";
                     dependency.FilePath = basePath + dependency.FilePath;
+                    // Replace CSS file with its RTL version if the current culture is right-to-left and the RTL file exists
+                    if (System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft && dependency.FilePath.EndsWith(".css", StringComparison.OrdinalIgnoreCase) && !dependency.FilePath.Contains("http"))
+                    {
+                        var rtlFilePath = dependency.FilePath.Replace(".css", ".rtl.css");
+                        var serverPath = HttpContext.Current.Server.MapPath(rtlFilePath);
+
+                        if (System.IO.File.Exists(serverPath))
+                        {
+                            dependency.FilePath = rtlFilePath;
+                        }
+                    }
                     dependency.ForceBundle = (dependency.ForceBundle | path.ForceBundle);
                 }
                 else
