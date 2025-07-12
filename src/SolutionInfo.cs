@@ -2,7 +2,7 @@ using System.Reflection;
 using System.Security;
 
 [assembly: AssemblyCompany("Shannon Deminick")]
-[assembly: AssemblyCopyright("Copyright © Shannon Deminick 2021")]
+[assembly: AssemblyCopyright("Copyright © Shannon Deminick 2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")] 
 
