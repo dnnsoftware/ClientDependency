@@ -79,11 +79,11 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug-MVC5|Any CPU = Debug-MVC5|Any CPU
-		Debug-Net45|Any CPU = Debug-Net45|Any CPU
+		Debug-Net48|Any CPU = Debug-Net48|Any CPU
 		Release|Any CPU = Release|Any CPU
 		Release-MVC5|Any CPU = Release-MVC5|Any CPU
 		Release-Net35|Any CPU = Release-Net35|Any CPU
-		Release-Net45|Any CPU = Release-Net45|Any CPU
+		Release-Net48|Any CPU = Release-Net48|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{EA35B06D-0CC8-4830-A3F7-9BB3D36D0FAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
