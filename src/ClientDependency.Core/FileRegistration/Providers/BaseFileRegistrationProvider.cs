@@ -301,6 +301,18 @@ namespace ClientDependency.Core.FileRegistration.Providers
                     dependency.FilePath = dependency.ResolveFilePath(http);
                 }
 
+                // Replace CSS file with its RTL version if the current culture is right-to-left and the RTL file exists
+                if (System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft &&
+                    !dependency.FilePath.StartsWith("http", StringComparison.OrdinalIgnoreCase) &&
+                    PathHelper.TryGetFileExtension(dependency.FilePath, out var ext))
+                {
+                    var rtlFilePath = Path.ChangeExtension(dependency.FilePath, ".rtl" + ext);
+                    if (PathHelper.TryMapPath(rtlFilePath, http, out var serverPath) && File.Exists(serverPath))
+                    {
+                        dependency.FilePath = rtlFilePath;
+                    }
+                }
+
                 //append query strings to each file if we are in debug mode
                 if (EnableDebugVersionQueryString &&
                     (http.IsDebuggingEnabled || !EnableCompositeFiles))

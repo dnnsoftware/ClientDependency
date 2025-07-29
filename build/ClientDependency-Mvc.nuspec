@@ -22,8 +22,8 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="net45\*.dll" target="lib\net45" />
-    <file src="net45\*.pdb" target="lib\net45" />
+    <file src="net48\*.dll" target="lib\net48" />
+    <file src="net48\*.pdb" target="lib\net48" />
 
     <file src="nuget-transforms\web.config.transform" target="Content" />
 

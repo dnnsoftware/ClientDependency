@@ -68,20 +68,20 @@ Write-Host "MSBUILD = $MSBuild"
 $SolutionInfoPath = Join-Path -Path $SolutionRoot -ChildPath "SolutionInfo.cs"
 (gc -Path $SolutionInfoPath) `
 	-replace "(?<=Version\(`")[.\d]*(?=`"\))", $ReleaseVersionNumber |
-	sc -Path $SolutionInfoPath -Encoding UTF8
+	Set-Content -Path $SolutionInfoPath -Encoding UTF8
 (gc -Path $SolutionInfoPath) `
 	-replace "(?<=AssemblyInformationalVersion\(`")[.\w-]*(?=`"\))", "$ReleaseVersionNumber$PreReleaseName" |
-	sc -Path $SolutionInfoPath -Encoding UTF8
+	Set-Content -Path $SolutionInfoPath -Encoding UTF8
 # Set the copyright
 (gc -Path $SolutionInfoPath) `
 	-replace "(?<=AssemblyCopyright\(`".*?)\d\d\d\d(?=`"\))", (Get-Date).year |
-	sc -Path $SolutionInfoPath -Encoding UTF8
+	Set-Content -Path $SolutionInfoPath -Encoding UTF8
 	
 # Build the solution in release mode (in both 4.0 and 4.5 and for MVC5)
 $SolutionPath = Join-Path -Path $SolutionRoot -ChildPath "ClientDependency.dnn.sln"
 
 # clean sln for all deploys
-& $MSBuild "$SolutionPath" /p:Configuration=Release-Net45 /maxcpucount /t:Clean
+& $MSBuild "$SolutionPath" /p:Configuration=Release-Net48 /maxcpucount /t:Clean
 if (-not $?)
 {
 	throw "The MSBuild process returned an error code."
@@ -91,7 +91,7 @@ if (-not $?)
 {
 	throw "The MSBuild process returned an error code."
 }
-& $MSBuild "$SolutionPath" /p:Configuration=Release-Net45 /maxcpucount /t:Clean
+& $MSBuild "$SolutionPath" /p:Configuration=Release-Net48 /maxcpucount /t:Clean
 if (-not $?)
 {
 	throw "The MSBuild process returned an error code."
@@ -109,7 +109,7 @@ Write-Host "Restoring nuget packages..."
 #build for all deploys
 
 # for net 3.5
-& $MSBuild "$SolutionPath" /p:Configuration=Release-Net45 /maxcpucount
+& $MSBuild "$SolutionPath" /p:Configuration=Release-Net48 /maxcpucount
 if (-not $?)
 {
 	throw "The MSBuild process returned an error code."
@@ -120,8 +120,8 @@ if (-not $?)
 {
 	throw "The MSBuild process returned an error code."
 }
-# for net 4.5
-& $MSBuild "$SolutionPath" /p:Configuration=Release-Net45 /maxcpucount
+# for net 4.8
+& $MSBuild "$SolutionPath" /p:Configuration=Release-Net48 /maxcpucount
 if (-not $?)
 {
 	throw "The MSBuild process returned an error code."
@@ -152,23 +152,23 @@ New-Item $TypeScriptFolder -Type directory
 
 $include = @('ClientDependency.Core.dll','ClientDependency.Core.pdb')
 # Need to build to specific .Net version folders
-$CoreBinFolderNet45 = Join-Path -Path $SolutionRoot -ChildPath "ClientDependency.Core\bin\Release-Net45";
-$CoreFolderNet45 = Join-Path -Path $CoreFolder -ChildPath "net45";
+$CoreBinFolderNet48 = Join-Path -Path $SolutionRoot -ChildPath "ClientDependency.Core\bin\Release-Net48";
+$CoreFolderNet48 = Join-Path -Path $CoreFolder -ChildPath "net48";
 
-New-Item $CoreFolderNet45 -Type directory
-Copy-Item "$CoreBinFolderNet45\*.*" -Destination $CoreFolderNet45 -Include $include
+New-Item $CoreFolderNet48 -Type directory
+Copy-Item "$CoreBinFolderNet48\*.*" -Destination $CoreFolderNet48 -Include $include
 
 $include = @('ClientDependency.Core.Mvc.dll','ClientDependency.Core.Mvc.pdb')
 # Need to build to specific .Net version folders
-$MvcBinFolderNet45 = Join-Path -Path $SolutionRoot -ChildPath "ClientDependency.Mvc\bin\Release-Net45";
-$MvcFolderNet45 = Join-Path -Path $MvcFolder -ChildPath "net45";
-New-Item $MvcFolderNet45 -Type directory
-#Copy-Item "$MvcBinFolderNet45\*.*" -Destination $MvcFolderNet45 -Include $include
+$MvcBinFolderNet48 = Join-Path -Path $SolutionRoot -ChildPath "ClientDependency.Mvc\bin\Release-Net48";
+$MvcFolderNet48 = Join-Path -Path $MvcFolder -ChildPath "net48";
+New-Item $MvcFolderNet48 -Type directory
+#Copy-Item "$MvcBinFolderNet48\*.*" -Destination $MvcFolderNet48 -Include $include
 #need to build mvc5 separately
-$Mvc5BinFolderNet45 = Join-Path -Path $SolutionRoot -ChildPath "ClientDependency.Mvc\bin\Release-MVC5";
-$Mvc5FolderNet45 = Join-Path -Path $Mvc5Folder -ChildPath "net45";
-New-Item $Mvc5FolderNet45 -Type directory
-#Copy-Item "$Mvc5BinFolderNet45\*.*" -Destination $Mvc5FolderNet45 -Include $include
+$Mvc5BinFolderNet48 = Join-Path -Path $SolutionRoot -ChildPath "ClientDependency.Mvc\bin\Release-MVC5";
+$Mvc5FolderNet48 = Join-Path -Path $Mvc5Folder -ChildPath "net48";
+New-Item $Mvc5FolderNet48 -Type directory
+#Copy-Item "$Mvc5BinFolderNet48\*.*" -Destination $Mvc5FolderNet48 -Include $include
 
 $include = @('ClientDependency.Less.dll','ClientDependency.Less.pdb')
 $LessBinFolder = Join-Path -Path $SolutionRoot -ChildPath "ClientDependency.Less\bin\Release";
